@@ -1,0 +1,36 @@
+Description: Create ec2 instance
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name
+    Type: String
+    Default: DEFAULT
+
+  SecurityGroup:
+    Description: Select the Security Group to use for the EC2
+    Type: String
+
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: ca-central-1a
+      ImageId: ami-0dcab815e6ee910aa
+      InstanceType: t2.micro
+      KeyName: Ec2Testing
+      SecurityGroups:
+        - !Ref SecurityGroup
+      Tags:
+        - Value: Cloud Formation
+          Key: Name
+      UserData:
+        Fn::Base64:
+          Fn::Sub: |
+            #!/bin/bash
+            # Use this for your user data (script from top to bottom)
+            # install httpd (Linux 2 version)
+            yum update -y
+            yum install -y httpd
+            systemctl start httpd
+            systemctl enable httpd
+            echo "<h1>${EnvironmentName} Environment</h1>" > /var/www/html/index.html

@@ -1,0 +1,18 @@
+Description: Create ec2 security group
+
+Resources:
+  Ec2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Ec2 CloudFormation Security Group Test
+      GroupName: Allow-all-incoming-traffic
+      SecurityGroupIngress:
+        - IpProtocol: -1
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 0.0.0.0/0
+
+Outputs:
+  Ec2SecurityGroup:
+    Description: Security group to allow all traffic
+    Value: !Ref Ec2SecurityGroup

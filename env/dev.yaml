@@ -1,0 +1,15 @@
+Description: DEV Environment
+
+Resources:
+  SecurityGroups:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://cloud-formation-inf-test.s3.ca-central-1.amazonaws.com/support/ec2-sg.yaml
+
+  EC2Instance:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://cloud-formation-inf-test.s3.ca-central-1.amazonaws.com/services/ec2-service.yaml
+      Parameters:
+        SecurityGroup: !GetAtt SecurityGroups.Outputs.Ec2SecurityGroup
+        EnvironmentName: DEV
